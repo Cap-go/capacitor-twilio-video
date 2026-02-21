@@ -8,17 +8,232 @@
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <meta name="format-detection" content="telephone=no" />
+    <style>
+      :root {
+        --bg: #0b1020;
+        --surface: #111933;
+        --surface-2: #182447;
+        --text: #e6ebff;
+        --text-muted: #9fb0e1;
+        --primary: #6f8cff;
+        --primary-2: #8aa0ff;
+        --success: #21c27a;
+        --danger: #f87171;
+        --border: #2a3a6f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at top, #1a2a57 0%, var(--bg) 45%);
+      }
+
+      main {
+        max-width: 980px;
+        margin: 28px auto;
+        padding: 0 16px 24px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+
+      p {
+        margin: 0 0 18px;
+        color: var(--text-muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 14px;
+      }
+
+      section {
+        background: linear-gradient(180deg, var(--surface), var(--surface-2));
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+      }
+
+      h3 {
+        margin: 0 0 10px;
+        font-size: 16px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #0b1228;
+        color: var(--text);
+        padding: 10px;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      button {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #1d2a55;
+        color: var(--text);
+        padding: 9px 12px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #24356d;
+      }
+
+      button.primary {
+        background: var(--primary);
+        border-color: var(--primary-2);
+        color: #0c1430;
+        font-weight: 600;
+      }
+
+      button.primary:hover {
+        background: var(--primary-2);
+      }
+
+      button.success {
+        background: #16372b;
+        border-color: #1f6b4d;
+      }
+
+      button.danger {
+        background: #3a1b1b;
+        border-color: #764040;
+      }
+
+      pre {
+        margin: 0;
+        width: 100%;
+        min-height: 160px;
+        max-height: 260px;
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #0a1022;
+        color: #c8d4ff;
+        padding: 10px;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      #status {
+        min-height: 20px;
+        margin: 10px 0 16px;
+        color: var(--text-muted);
+      }
+
+      .ok {
+        color: var(--success);
+      }
+
+      .err {
+        color: var(--danger);
+      }
+    </style>
   </head>
   <body>
     <main>
-      <h1>Capacitor Test Plugin Project</h1>
-      <p>
-        This project can be used to test out the functionality of your plugin. Nothing in the
-        <em>example-app/</em> folder will be published to npm when using this template, so you can create away!
-      </p>
-      <label for="echoInput">Echo Text:</label>
-      <input type="text" id="echoInput" name="echoInput" value="Hello World!" />
-      <button onclick="testEcho()">Click Me!</button>
+      <h1>Twilio Video Plugin Example</h1>
+      <p>Headless iOS test panel (no native video rendering), with backend token fetch flow.</p>
+      <div id="status">Ready.</div>
+
+      <div class="grid">
+        <section>
+          <h3>Backend Token</h3>
+          <label for="backendUrl">Backend URL</label>
+          <input
+            type="text"
+            id="backendUrl"
+            name="backendUrl"
+            value="https://capgo.wcaleniewolny.me"
+          />
+          <label for="identity">Identity</label>
+          <input type="text" id="identity" name="identity" value="alice" />
+          <div class="button-row">
+            <button id="fetchTokenBtn">Fetch Token</button>
+            <button id="fetchTokenAndLoginBtn" class="primary">Fetch Token + Login</button>
+          </div>
+        </section>
+
+        <section>
+          <h3>Session</h3>
+          <label for="accessToken">Access Token</label>
+          <textarea
+            id="accessToken"
+            name="accessToken"
+            rows="4"
+            placeholder="Paste token or use Fetch Token"
+          ></textarea>
+          <div class="button-row">
+            <button id="loginBtn">Login</button>
+            <button id="isLoggedInBtn">Is Logged In?</button>
+            <button id="logoutBtn" class="danger">Logout</button>
+          </div>
+        </section>
+
+        <section>
+          <h3>Permissions</h3>
+          <div class="button-row">
+            <button id="checkMicBtn">Check Mic</button>
+            <button id="requestMicBtn">Request Mic</button>
+            <button id="checkCameraBtn">Check Camera</button>
+            <button id="requestCameraBtn">Request Camera</button>
+          </div>
+        </section>
+
+        <section>
+          <h3>Room + Media</h3>
+          <label for="roomName">Room Name</label>
+          <input type="text" id="roomName" name="roomName" value="test-room" />
+          <div class="button-row">
+            <button id="joinRoomBtn" class="success">Join Room</button>
+            <button id="leaveRoomBtn">Leave Room</button>
+            <button id="statusBtn">Get Status</button>
+          </div>
+          <div class="button-row" style="margin-top: 8px;">
+            <button id="micOnBtn">Mic On</button>
+            <button id="micOffBtn">Mic Off</button>
+            <button id="cameraOnBtn">Camera On</button>
+            <button id="cameraOffBtn">Camera Off</button>
+          </div>
+        </section>
+
+        <section>
+          <h3>Output</h3>
+          <pre id="output">Ready.</pre>
+        </section>
+
+        <section>
+          <h3>Event Log</h3>
+          <pre id="events"></pre>
+        </section>
+      </div>
     </main>
 
     <script src="./js/example.js" type="module"></script>
