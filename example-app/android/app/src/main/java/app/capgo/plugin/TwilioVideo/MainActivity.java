@@ -1,4 +1,4 @@
-package com.example.plugin;
+package app.capgo.plugin.TwilioVideo;
 
 import com.getcapacitor.BridgeActivity;
 
