@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.getcapacitor.JSObject;
 import com.getcapacitor.PermissionState;
 import com.getcapacitor.Plugin;
@@ -40,7 +39,6 @@ import com.twilio.video.TwilioException;
 import com.twilio.video.Video;
 import com.twilio.video.VideoTextureView;
 import com.twilio.video.VideoView;
-
 import java.util.Collections;
 import java.util.Locale;
 
@@ -52,6 +50,7 @@ import java.util.Locale;
     }
 )
 public class CapacitorTwilioVideoPlugin extends Plugin {
+
     private static final String PREFS_NAME = "CapacitorTwilioVideoPrefs";
     private static final String ACCESS_TOKEN_KEY = "CapacitorTwilioVideoCachedAccessToken";
 
@@ -196,35 +195,71 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
         public void onVideoTrackUnpublished(RemoteParticipant remoteParticipant, RemoteVideoTrackPublication remoteVideoTrackPublication) {}
 
         @Override
-        public void onAudioTrackSubscribed(RemoteParticipant remoteParticipant, RemoteAudioTrackPublication remoteAudioTrackPublication, RemoteAudioTrack remoteAudioTrack) {}
+        public void onAudioTrackSubscribed(
+            RemoteParticipant remoteParticipant,
+            RemoteAudioTrackPublication remoteAudioTrackPublication,
+            RemoteAudioTrack remoteAudioTrack
+        ) {}
 
         @Override
-        public void onAudioTrackUnsubscribed(RemoteParticipant remoteParticipant, RemoteAudioTrackPublication remoteAudioTrackPublication, RemoteAudioTrack remoteAudioTrack) {}
+        public void onAudioTrackUnsubscribed(
+            RemoteParticipant remoteParticipant,
+            RemoteAudioTrackPublication remoteAudioTrackPublication,
+            RemoteAudioTrack remoteAudioTrack
+        ) {}
 
         @Override
-        public void onAudioTrackSubscriptionFailed(RemoteParticipant remoteParticipant, RemoteAudioTrackPublication remoteAudioTrackPublication, TwilioException twilioException) {}
+        public void onAudioTrackSubscriptionFailed(
+            RemoteParticipant remoteParticipant,
+            RemoteAudioTrackPublication remoteAudioTrackPublication,
+            TwilioException twilioException
+        ) {}
 
         @Override
-        public void onDataTrackSubscribed(RemoteParticipant remoteParticipant, RemoteDataTrackPublication remoteDataTrackPublication, RemoteDataTrack remoteDataTrack) {}
+        public void onDataTrackSubscribed(
+            RemoteParticipant remoteParticipant,
+            RemoteDataTrackPublication remoteDataTrackPublication,
+            RemoteDataTrack remoteDataTrack
+        ) {}
 
         @Override
-        public void onDataTrackUnsubscribed(RemoteParticipant remoteParticipant, RemoteDataTrackPublication remoteDataTrackPublication, RemoteDataTrack remoteDataTrack) {}
+        public void onDataTrackUnsubscribed(
+            RemoteParticipant remoteParticipant,
+            RemoteDataTrackPublication remoteDataTrackPublication,
+            RemoteDataTrack remoteDataTrack
+        ) {}
 
         @Override
-        public void onDataTrackSubscriptionFailed(RemoteParticipant remoteParticipant, RemoteDataTrackPublication remoteDataTrackPublication, TwilioException twilioException) {}
+        public void onDataTrackSubscriptionFailed(
+            RemoteParticipant remoteParticipant,
+            RemoteDataTrackPublication remoteDataTrackPublication,
+            TwilioException twilioException
+        ) {}
 
         @Override
-        public void onVideoTrackSubscribed(RemoteParticipant remoteParticipant, RemoteVideoTrackPublication remoteVideoTrackPublication, RemoteVideoTrack remoteVideoTrack) {
+        public void onVideoTrackSubscribed(
+            RemoteParticipant remoteParticipant,
+            RemoteVideoTrackPublication remoteVideoTrackPublication,
+            RemoteVideoTrack remoteVideoTrack
+        ) {
             attachRemoteRendererIfAvailable();
         }
 
         @Override
-        public void onVideoTrackUnsubscribed(RemoteParticipant remoteParticipant, RemoteVideoTrackPublication remoteVideoTrackPublication, RemoteVideoTrack remoteVideoTrack) {
+        public void onVideoTrackUnsubscribed(
+            RemoteParticipant remoteParticipant,
+            RemoteVideoTrackPublication remoteVideoTrackPublication,
+            RemoteVideoTrack remoteVideoTrack
+        ) {
             attachRemoteRendererIfAvailable();
         }
 
         @Override
-        public void onVideoTrackSubscriptionFailed(RemoteParticipant remoteParticipant, RemoteVideoTrackPublication remoteVideoTrackPublication, TwilioException twilioException) {
+        public void onVideoTrackSubscriptionFailed(
+            RemoteParticipant remoteParticipant,
+            RemoteVideoTrackPublication remoteVideoTrackPublication,
+            TwilioException twilioException
+        ) {
             attachRemoteRendererIfAvailable();
         }
 
@@ -437,7 +472,8 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
 
     @PluginMethod
     public void getCallStatus(PluginCall call) {
-        boolean isConnected = implementation.getCurrentRoom() != null &&
+        boolean isConnected =
+            implementation.getCurrentRoom() != null &&
             ("connecting".equals(implementation.getState()) ||
                 "connected".equals(implementation.getState()) ||
                 "reconnecting".equals(implementation.getState()));
@@ -445,7 +481,10 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
         JSObject result = new JSObject();
         result.put("hasActiveCall", isConnected);
         result.put("callState", implementation.getState());
-        result.put("participantCount", implementation.getCurrentRoom() != null ? implementation.getCurrentRoom().getRemoteParticipants().size() : 0);
+        result.put(
+            "participantCount",
+            implementation.getCurrentRoom() != null ? implementation.getCurrentRoom().getRemoteParticipants().size() : 0
+        );
         result.put("isMicrophoneEnabled", implementation.getLocalAudioTrack() != null && implementation.getLocalAudioTrack().isEnabled());
         result.put("isCameraEnabled", implementation.getLocalVideoTrack() != null && implementation.getLocalVideoTrack().isEnabled());
         if (implementation.getCurrentRoomName() != null) {
@@ -608,12 +647,17 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
             overlay.setClickable(true);
 
             VideoView remoteView = new VideoView(activity);
-            remoteView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            remoteView.setLayoutParams(
+                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            );
             remoteView.setVisibility(View.GONE);
             overlay.addView(remoteView);
 
             TextView placeholder = new TextView(activity);
-            FrameLayout.LayoutParams placeholderParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams placeholderParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            );
             placeholderParams.gravity = Gravity.CENTER;
             placeholder.setLayoutParams(placeholderParams);
             placeholder.setText("Waiting for remote video...");
@@ -632,7 +676,10 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
             overlay.addView(localView);
 
             TextView stateLabel = new TextView(activity);
-            FrameLayout.LayoutParams stateParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams stateParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            );
             stateParams.gravity = Gravity.BOTTOM;
             stateParams.leftMargin = dp(16);
             stateParams.rightMargin = dp(16);
@@ -658,9 +705,9 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
             leave.setBackgroundColor(Color.parseColor("#D32F2F"));
             leave.setText("Leave");
 
-            mic.setOnClickListener(view -> toggleMicrophoneFromOverlay());
-            camera.setOnClickListener(view -> toggleCameraFromOverlay());
-            leave.setOnClickListener(view -> disconnectCurrentRoom());
+            mic.setOnClickListener((view) -> toggleMicrophoneFromOverlay());
+            camera.setOnClickListener((view) -> toggleCameraFromOverlay());
+            leave.setOnClickListener((view) -> disconnectCurrentRoom());
 
             controls.addView(mic);
             controls.addView(camera);
@@ -735,7 +782,10 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
                     webViewTransparencyApplied = true;
                 }
                 webView.setBackgroundColor(Color.TRANSPARENT);
-                webView.evaluateJavascript("document.documentElement.style.background='transparent';document.body.style.background='transparent';", null);
+                webView.evaluateJavascript(
+                    "document.documentElement.style.background='transparent';document.body.style.background='transparent';",
+                    null
+                );
                 return;
             }
 
@@ -773,7 +823,8 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
             }
             boolean micEnabled = implementation.getLocalAudioTrack() != null && implementation.getLocalAudioTrack().isEnabled();
             boolean cameraEnabled = implementation.getLocalVideoTrack() != null && implementation.getLocalVideoTrack().isEnabled();
-            int participantCount = implementation.getCurrentRoom() != null ? implementation.getCurrentRoom().getRemoteParticipants().size() : 0;
+            int participantCount =
+                implementation.getCurrentRoom() != null ? implementation.getCurrentRoom().getRemoteParticipants().size() : 0;
 
             micButton.setText(micEnabled ? "Mute" : "Unmute");
             cameraButton.setText(cameraEnabled ? "Camera Off" : "Camera On");

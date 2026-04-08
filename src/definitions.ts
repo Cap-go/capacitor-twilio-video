@@ -1,21 +1,24 @@
+/**
+ * Capacitor API for joining Twilio Video rooms with a native in-app call surface.
+ */
 export interface CapacitorTwilioVideoPlugin {
   /**
-   * Store and validate a Twilio Video access token.
+   * Store and validate a Twilio Video access token minted by your backend.
    */
   login(options: { accessToken: string }): Promise<{ success: boolean }>;
 
   /**
-   * Clear the current session and leave the active room.
+   * Clear the cached access token and leave the active room.
    */
   logout(): Promise<{ success: boolean }>;
 
   /**
-   * Check whether a valid token is currently stored.
+   * Check whether a valid Twilio token is currently cached on the device.
    */
   isLoggedIn(): Promise<{ isLoggedIn: boolean; hasValidToken: boolean; identity?: string }>;
 
   /**
-   * Connect to a Twilio Video room without rendering UI.
+   * Join a Twilio room and present the plugin's native in-app call overlay.
    */
   joinRoom(options: { roomName: string; enableAudio?: boolean; enableVideo?: boolean }): Promise<{ success: boolean }>;
 
@@ -35,7 +38,7 @@ export interface CapacitorTwilioVideoPlugin {
   setCameraEnabled(options: { enabled: boolean }): Promise<{ success: boolean; enabled: boolean }>;
 
   /**
-   * Get current room and media state.
+   * Return the current room name, media state, and participant count.
    */
   getCallStatus(): Promise<{
     hasActiveCall: boolean;
@@ -109,8 +112,14 @@ export interface CapacitorTwilioVideoPlugin {
   /**
    * Listen for reconnection success events.
    */
-  addListener(eventName: 'roomReconnected', listenerFunc: (data: { roomName: string }) => void): Promise<PluginListenerHandle>;
+  addListener(
+    eventName: 'roomReconnected',
+    listenerFunc: (data: { roomName: string }) => void,
+  ): Promise<PluginListenerHandle>;
 
+  /**
+   * Remove every listener registered through this plugin instance.
+   */
   removeAllListeners(): Promise<void>;
 }
 

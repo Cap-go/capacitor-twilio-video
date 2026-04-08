@@ -8,13 +8,13 @@ import com.twilio.video.LocalAudioTrack;
 import com.twilio.video.LocalVideoTrack;
 import com.twilio.video.Room;
 import com.twilio.video.VideoCapturer;
-import org.json.JSONObject;
-
 import java.nio.charset.StandardCharsets;
+import org.json.JSONObject;
 import tvi.webrtc.Camera1Enumerator;
 import tvi.webrtc.Camera2Enumerator;
 
 public class CapacitorTwilioVideo {
+
     private String accessToken;
     private Room currentRoom;
     private String currentRoomName;

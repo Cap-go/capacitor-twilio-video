@@ -1,28 +1,21 @@
 {
-  "name": "capacitor-app",
+  "name": "twilio-video-example",
   "version": "1.0.0",
-  "description": "An Amazing Capacitor App",
+  "description": "Example Capacitor app for @capgo/capacitor-twilio-video",
   "type": "module",
-  "keywords": [
-    "capacitor",
-    "mobile"
-  ],
   "scripts": {
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@capacitor/android": "8.0.0",
-    "@capacitor/core": "latest",
-    "@capacitor/ios": "8.0.0",
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
     "@capgo/capacitor-twilio-video": "file:.."
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5",
-    "@capacitor/cli": "latest",
+    "@capacitor/cli": "^8.0.0",
     "vite": "^7.3.1"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }

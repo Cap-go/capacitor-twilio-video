@@ -4,6 +4,7 @@ import type { CapacitorTwilioVideoPlugin } from './definitions';
 
 export class CapacitorTwilioVideoWeb extends WebPlugin implements CapacitorTwilioVideoPlugin {
   async login(_options: { accessToken: string }): Promise<{ success: boolean }> {
+    void _options;
     throw this.unimplemented('Not implemented on web.');
   }
 
@@ -20,6 +21,7 @@ export class CapacitorTwilioVideoWeb extends WebPlugin implements CapacitorTwili
     enableAudio?: boolean;
     enableVideo?: boolean;
   }): Promise<{ success: boolean }> {
+    void _options;
     throw this.unimplemented('Not implemented on web.');
   }
 
@@ -28,10 +30,12 @@ export class CapacitorTwilioVideoWeb extends WebPlugin implements CapacitorTwili
   }
 
   async setMicrophoneEnabled(_options: { enabled: boolean }): Promise<{ success: boolean; enabled: boolean }> {
+    void _options;
     throw this.unimplemented('Not implemented on web.');
   }
 
   async setCameraEnabled(_options: { enabled: boolean }): Promise<{ success: boolean; enabled: boolean }> {
+    void _options;
     throw this.unimplemented('Not implemented on web.');
   }
 
