@@ -16,9 +16,9 @@ Capgo docs route: `https://capgo.app/docs/plugins/twilio-video/`
 
 | Plugin version | Capacitor compatibility | Maintained |
 | -------------- | ----------------------- | ---------- |
-| v8.*.*         | v8.*.*                  | ✅          |
-| v7.*.*         | v7.*.*                  | On demand   |
-| v6.*.*         | v6.*.*                  | ❌          |
+| 8.x.x          | 8.x.x                   | ✅          |
+| 7.x.x          | 7.x.x                   | On demand   |
+| 6.x.x          | 6.x.x                   | ❌          |
 
 > **Note:** The major version of this plugin follows the major version of Capacitor. Use the version that matches your Capacitor installation. Only the latest major version is actively maintained.
 
