@@ -1,3 +1,4 @@
+import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import { CapacitorTwilioVideo } from '@capgo/capacitor-twilio-video';
 import { Capacitor } from '@capacitor/core';
 
@@ -162,3 +163,9 @@ await wireEvent('roomReconnecting');
 await wireEvent('roomReconnected');
 
 setStatus('Ready.');
+
+if (Capacitor.isNativePlatform()) {
+  CapacitorUpdater.notifyAppReady().catch((error) => {
+    console.error('Capgo notifyAppReady failed', error);
+  });
+}
