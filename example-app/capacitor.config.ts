@@ -4,7 +4,7 @@ import pkg from './package.json';
 
 const config: CapacitorConfig = {
   appId: 'app.capgo.plugin.TwilioVideo',
-  appName: 'Twilio Video Example',
+  appName: '@capgo/capacitor-twilio-video',
   webDir: 'dist',
   plugins: {
     SplashScreen: {
