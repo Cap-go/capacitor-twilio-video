@@ -1,12 +1,28 @@
 # @capgo/capacitor-twilio-video
-<a href="https://capgo.app/"><img src="https://capgo.app/readme-banner.svg?repo=Cap-go/capacitor-twilio-video" alt="Capgo - Instant updates for Capacitor" /></a>
+
+Join Twilio Video rooms from your Capacitor app with a native call screen, media controls and room events on iOS and Android.
+
+<a href="https://capgo.app/?ref=plugin_twilio_video"><img src="https://capgo.app/readme-banner.svg?repo=Cap-go/capacitor-twilio-video" alt="Capgo - Instant updates for Capacitor" /></a>
 
 <div align="center">
-  <h2><a href="https://capgo.app/?ref=plugin_twilio_video"> ➡️ Get Instant updates for your App with Capgo</a></h2>
-  <h2><a href="https://capgo.app/consulting/?ref=plugin_twilio_video"> Missing a feature? We’ll build the plugin for you 💪</a></h2>
+  <p><b>Capgo</b>: open-source live updates for Ionic and Capacitor apps. Ship OTA fixes and features instantly, without waiting for app store review.</p>
+  <h2><a href="https://capgo.app/register/?ref=plugin_twilio_video">➡️ Get started for free</a></h2>
+  <p>14-day unlimited free trial. No credit card required</p>
+  <p><a href="https://capgo.app/consulting/?ref=plugin_twilio_video">Missing a feature? We'll build the plugin for you 💪</a></p>
 </div>
 
-Capacitor plugin for joining Twilio Video rooms with native iOS and Android media surfaces, token caching, permission helpers, and typed room lifecycle events.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Cap-go/capacitor-twilio-video/main/assets/github-social-preview.png" alt="@capgo/capacitor-twilio-video for Capacitor apps" width="300" />
+</p>
+
+## Key features
+
+- **Token handling**: `login()` caches a Twilio access token, `isLoggedIn()` and `logout()`.
+- **Rooms**: `joinRoom()` presents the native call surface and `leaveRoom()` exits.
+- **Media controls**: `setMicrophoneEnabled()` and `setCameraEnabled()`.
+- **Room events**: connected, disconnected, reconnecting, reconnected and participant events.
+- **Permissions**: microphone and camera check and request helpers.
+- **Platforms**: iOS and Android. Uses the Twilio Video SDKs. Web only reports token and call status.
 
 ## Documentation
 
