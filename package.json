@@ -1,6 +1,6 @@
 {
   "name": "@capgo/capacitor-twilio-video",
-  "version": "8.0.12",
+  "version": "8.0.13",
   "description": "Capacitor plugin for joining Twilio Video rooms with a native in-app call surface and media controls.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
