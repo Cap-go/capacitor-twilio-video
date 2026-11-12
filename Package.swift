@@ -11,7 +11,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "8.0.0"),
-        .package(url: "https://github.com/twilio/twilio-video-ios", from: "5.0.0")
+        .package(url: "https://github.com/twilio/twilio-video-ios", from: "5.11.3")
     ],
     targets: [
         .target(

@@ -607,6 +607,9 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
     private void disconnectCurrentRoom() {
         Room room = implementation.getCurrentRoom();
         if (room != null) {
+            for (RemoteParticipant participant : room.getRemoteParticipants()) {
+                participant.setListener(null);
+            }
             room.disconnect();
         }
         implementation.updateRoom(null);

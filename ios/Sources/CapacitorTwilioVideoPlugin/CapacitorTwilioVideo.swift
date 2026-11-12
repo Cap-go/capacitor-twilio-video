@@ -69,6 +69,9 @@ import AVFoundation
         if enableVideo && localVideoTrack == nil {
             ensureVideoTrack()
         }
+        if enableVideo {
+            startCameraCaptureIfNeeded()
+        }
         if !enableAudio {
             localAudioTrack?.isEnabled = false
         }

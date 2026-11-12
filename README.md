@@ -35,7 +35,7 @@ We build, improve and fix our plugins with heavy use of AI, so issues usually ge
 - **Media controls**: `setMicrophoneEnabled()` and `setCameraEnabled()`.
 - **Room events**: connected, disconnected, reconnecting, reconnected and participant events.
 - **Permissions**: microphone and camera check and request helpers.
-- **Platforms**: iOS and Android. Uses the Twilio Video SDKs. Web only reports token and call status.
+- **Platforms**: iOS 15+ and Android API 24+ with Twilio Video iOS 5.11.x and Android 7.10.5. Web throws `unimplemented`.
 
 ## Documentation
 
@@ -115,14 +115,16 @@ await CapacitorTwilioVideo.joinRoom({
 
 ### iOS
 
-- The plugin links `TwilioVideo` through Swift Package Manager and CocoaPods support.
-- Add the usual `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` strings in your host app.
-- The plugin presents a native overlay inside your Capacitor app when a room is active.
+- Minimum deployment target: iOS 15.
+- Twilio Video iOS SDK floor: 5.11.3 (Swift Package Manager and CocoaPods `~> 5.11`).
+- Add `NSMicrophoneUsageDescription` and `NSCameraUsageDescription` in your host app `Info.plist`.
+- The plugin configures `AVAudioSession` for `videoChat` before joining a room and presents a native overlay while a room is active.
 
 ### Android
 
-- The plugin requests `RECORD_AUDIO` and `CAMERA` as needed.
-- Twilio's Android SDK is linked from Gradle in the plugin module.
+- Minimum SDK: API 24.
+- Twilio Video Android SDK: `com.twilio:video-android:7.10.5`.
+- The plugin declares `RECORD_AUDIO` and `CAMERA` and maps them to Capacitor permission aliases.
 - The native in-app call overlay is attached above the Capacitor WebView while the room is active.
 
 ### Web

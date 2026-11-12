@@ -5,6 +5,41 @@ import TwilioVideo
 import UIKit
 
 extension CapacitorTwilioVideoPlugin {
+    func isMicrophonePermissionGranted() -> Bool {
+        if #available(iOS 17.0, *) {
+            return AVAudioApplication.shared.recordPermission == .granted
+        }
+        return AVAudioSession.sharedInstance().recordPermission == .granted
+    }
+
+    func requestMicrophonePermission(completion: @escaping (Bool) -> Void) {
+        if #available(iOS 17.0, *) {
+            AVAudioApplication.requestRecordPermission { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+            return
+        }
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            DispatchQueue.main.async {
+                completion(granted)
+            }
+        }
+    }
+
+    func configureAudioSessionForVideoCall() throws {
+        let audioSession = AVAudioSession.sharedInstance()
+        try audioSession.setCategory(.playAndRecord, mode: .videoChat, options: [.defaultToSpeaker, .allowBluetooth])
+        try audioSession.setActive(true)
+    }
+
+    func clearRemoteParticipantDelegates(in room: Room) {
+        for participant in room.remoteParticipants {
+            participant.delegate = nil
+        }
+    }
+
     func disconnectCurrentRoom() {
         implementation.currentRoom?.disconnect()
         implementation.updateRoom(nil)
