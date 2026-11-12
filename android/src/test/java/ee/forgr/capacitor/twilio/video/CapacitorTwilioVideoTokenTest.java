@@ -8,8 +8,7 @@ import org.junit.Test;
 
 public class CapacitorTwilioVideoTokenTest {
 
-    private static final String VALID_TOKEN =
-        "eyJhbGciOiJub25lIn0.eyJleHAiOjQxMDI0NDQ4MDAsImdyYW50cyI6eyJpZGVudGl0eSI6InRlc3QifX0.x";
+    private static final String VALID_TOKEN = "eyJhbGciOiJub25lIn0.eyJleHAiOjQxMDI0NDQ4MDAsImdyYW50cyI6eyJpZGVudGl0eSI6InRlc3QifX0.x";
 
     private static final String EXPIRED_TOKEN = "eyJhbGciOiJub25lIn0.eyJleHAiOjEsImdyYW50cyI6eyJpZGVudGl0eSI6InRlc3QifX0.x";
 
