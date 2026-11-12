@@ -3,9 +3,9 @@ import XCTest
 
 class CapacitorTwilioVideoTests: XCTestCase {
     private let validToken =
-        "eyJhbGciOiJub25lIn0.eyJleHAiOjQxMDI0NDQ4MDAsImdyYW50cyI6eyJpZGVudGl0eSI6InRlc3QifX0.signature"
+        "eyJhbGciOiJub25lIn0.eyJleHAiOjQxMDI0NDQ4MDAsImdyYW50cyI6eyJpZGVudGl0eSI6InRlc3QifX0.x"
     private let expiredToken =
-        "eyJhbGciOiJub25lIn0.eyJleHAiOjEsImdyYW50cyI6eyJpZGVudGl0eSI6InRlc3QifX0.signature"
+        "eyJhbGciOiJub25lIn0.eyJleHAiOjEsImdyYW50cyI6eyJpZGVudGl0eSI6InRlc3QifX0.x"
 
     func testEcho() {
         let implementation = CapacitorTwilioVideo()

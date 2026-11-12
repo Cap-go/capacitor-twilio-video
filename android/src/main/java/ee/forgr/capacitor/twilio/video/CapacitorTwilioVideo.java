@@ -199,7 +199,12 @@ public class CapacitorTwilioVideo {
             if (parts.length != 3) {
                 return null;
             }
-            byte[] decoded = Base64.decode(parts[1], Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
+            String payloadSegment = parts[1];
+            int remainder = payloadSegment.length() % 4;
+            if (remainder > 0) {
+                payloadSegment = payloadSegment + "=".repeat(4 - remainder);
+            }
+            byte[] decoded = Base64.decode(payloadSegment, Base64.URL_SAFE | Base64.NO_WRAP);
             String payload = new String(decoded, StandardCharsets.UTF_8);
             return new JSONObject(payload);
         } catch (Exception exception) {
