@@ -126,9 +126,6 @@ public class CapacitorTwilioVideo {
             if (payload == null || !payload.has("exp")) {
                 return false;
             }
-            if (!payload.has("exp")) {
-                return false;
-            }
             long exp = (long) payload.getDouble("exp");
             long now = System.currentTimeMillis() / 1000L;
             return exp > now;
@@ -147,7 +144,10 @@ public class CapacitorTwilioVideo {
             if (grants == null) {
                 return null;
             }
-            return grants.optString("identity", null);
+            if (!grants.has("identity")) {
+                return null;
+            }
+            return grants.getString("identity");
         } catch (Exception exception) {
             return null;
         }
@@ -202,7 +202,12 @@ public class CapacitorTwilioVideo {
             if (parts.length != 3) {
                 return null;
             }
-            byte[] decoded = Base64.getUrlDecoder().decode(parts[1]);
+            String payloadSegment = parts[1];
+            int padding = (4 - (payloadSegment.length() % 4)) % 4;
+            if (padding > 0) {
+                payloadSegment = payloadSegment + "=".repeat(padding);
+            }
+            byte[] decoded = Base64.getUrlDecoder().decode(payloadSegment);
             String payload = new String(decoded, StandardCharsets.UTF_8);
             return new JSONObject(payload);
         } catch (Exception exception) {
