@@ -126,7 +126,10 @@ public class CapacitorTwilioVideo {
             if (payload == null || !payload.has("exp")) {
                 return false;
             }
-            long exp = payload.getLong("exp");
+            if (!payload.has("exp")) {
+                return false;
+            }
+            long exp = (long) payload.getDouble("exp");
             long now = System.currentTimeMillis() / 1000L;
             return exp > now;
         } catch (Exception exception) {
