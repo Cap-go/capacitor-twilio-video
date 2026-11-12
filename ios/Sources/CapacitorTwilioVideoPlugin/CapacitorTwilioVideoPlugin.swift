@@ -105,12 +105,19 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
         let enableAudio = call.getBool("enableAudio") ?? true
         let enableVideo = call.getBool("enableVideo") ?? false
 
-        if enableAudio, AVAudioSession.sharedInstance().recordPermission != .granted {
+        if enableAudio, !isMicrophonePermissionGranted() {
             call.reject("Microphone permission is required to enable audio.")
             return
         }
         if enableVideo, AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
             call.reject("Camera permission is required to enable video.")
+            return
+        }
+
+        do {
+            try configureAudioSessionForVideoCall()
+        } catch {
+            call.reject("Unable to configure audio session: \(error.localizedDescription)")
             return
         }
 
@@ -144,7 +151,7 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
             call.reject("enabled is required")
             return
         }
-        if enabled, AVAudioSession.sharedInstance().recordPermission != .granted {
+        if enabled, !isMicrophonePermissionGranted() {
             call.reject("Microphone permission is required.")
             return
         }
@@ -210,14 +217,12 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
     }
 
     @objc func checkMicrophonePermission(_ call: CAPPluginCall) {
-        call.resolve(["granted": AVAudioSession.sharedInstance().recordPermission == .granted])
+        call.resolve(["granted": isMicrophonePermissionGranted()])
     }
 
     @objc func requestMicrophonePermission(_ call: CAPPluginCall) {
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            DispatchQueue.main.async {
-                call.resolve(["granted": granted])
-            }
+        requestMicrophonePermission { granted in
+            call.resolve(["granted": granted])
         }
     }
 
@@ -253,8 +258,10 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
 
     public func roomDidDisconnect(room: Room, error: Error?) {
         let roomName = room.name
+        clearRemoteParticipantDelegates(in: room)
         implementation.updateRoom(nil)
         implementation.setState("disconnected")
+        implementation.endRoomMediaCapture()
         teardownCallUI()
         var payload: [String: Any] = ["roomName": roomName]
         if let error = error {
@@ -264,8 +271,10 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
     }
 
     public func roomDidFailToConnect(room: Room, error: Error) {
+        clearRemoteParticipantDelegates(in: room)
         implementation.updateRoom(nil)
         implementation.setState("disconnected")
+        implementation.endRoomMediaCapture()
         teardownCallUI()
         notifyListeners("roomDisconnected", data: [
             "roomName": room.name,
@@ -304,6 +313,7 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
     }
 
     public func participantDidDisconnect(room: Room, participant: RemoteParticipant) {
+        participant.delegate = nil
         if room.remoteParticipants.isEmpty {
             detachRemoteRenderer()
         } else {

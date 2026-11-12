@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.source_files = 'ios/Sources/**/*.{swift,h,m,c,cc,mm,cpp}'
   s.ios.deployment_target = '15.0'
   s.dependency 'Capacitor'
-  s.dependency 'TwilioVideo', '~> 5'
+  s.dependency 'TwilioVideo', '~> 5.11'
   s.frameworks = 'AVFoundation'
   s.swift_version = '5.1'
 end

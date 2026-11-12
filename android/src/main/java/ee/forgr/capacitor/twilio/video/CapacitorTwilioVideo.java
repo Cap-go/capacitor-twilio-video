@@ -1,7 +1,6 @@
 package ee.forgr.capacitor.twilio.video;
 
 import android.content.Context;
-import android.util.Base64;
 import com.twilio.video.Camera2Capturer;
 import com.twilio.video.CameraCapturer;
 import com.twilio.video.LocalAudioTrack;
@@ -9,6 +8,7 @@ import com.twilio.video.LocalVideoTrack;
 import com.twilio.video.Room;
 import com.twilio.video.VideoCapturer;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import org.json.JSONObject;
 import tvi.webrtc.Camera1Enumerator;
 import tvi.webrtc.Camera2Enumerator;
@@ -87,6 +87,16 @@ public class CapacitorTwilioVideo {
         state = nextState;
     }
 
+    public void endRoomMediaCapture() {
+        if (videoCapturer != null) {
+            try {
+                videoCapturer.stopCapture();
+            } catch (InterruptedException exception) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
     public void ensureLocalTracks(Context context, boolean enableAudio, boolean enableVideo) {
         if (enableAudio && localAudioTrack == null) {
             localAudioTrack = LocalAudioTrack.create(context, true);
@@ -126,7 +136,11 @@ public class CapacitorTwilioVideo {
             if (payload == null || !payload.has("exp")) {
                 return false;
             }
-            long exp = payload.getLong("exp");
+            Object expValue = payload.get("exp");
+            if (!(expValue instanceof Number)) {
+                return false;
+            }
+            long exp = ((Number) expValue).longValue();
             long now = System.currentTimeMillis() / 1000L;
             return exp > now;
         } catch (Exception exception) {
@@ -144,7 +158,10 @@ public class CapacitorTwilioVideo {
             if (grants == null) {
                 return null;
             }
-            return grants.optString("identity", null);
+            if (!grants.has("identity")) {
+                return null;
+            }
+            return grants.getString("identity");
         } catch (Exception exception) {
             return null;
         }
@@ -199,7 +216,12 @@ public class CapacitorTwilioVideo {
             if (parts.length != 3) {
                 return null;
             }
-            byte[] decoded = Base64.decode(parts[1], Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
+            String payloadSegment = parts[1].replace('-', '+').replace('_', '/');
+            int padding = (4 - (payloadSegment.length() % 4)) % 4;
+            if (padding > 0) {
+                payloadSegment = payloadSegment + "=".repeat(padding);
+            }
+            byte[] decoded = Base64.getDecoder().decode(payloadSegment);
             String payload = new String(decoded, StandardCharsets.UTF_8);
             return new JSONObject(payload);
         } catch (Exception exception) {

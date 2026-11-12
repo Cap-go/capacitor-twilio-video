@@ -46,6 +46,10 @@ import AVFoundation
         state = next
     }
 
+    func endRoomMediaCapture() {
+        stopCameraCapture()
+    }
+
     func isTokenValid(_ token: String) -> Bool {
         guard let payload = decodeJWTPayload(token), let exp = payload["exp"] as? TimeInterval else {
             return false
@@ -68,6 +72,9 @@ import AVFoundation
         }
         if enableVideo && localVideoTrack == nil {
             ensureVideoTrack()
+        }
+        if enableVideo {
+            startCameraCaptureIfNeeded()
         }
         if !enableAudio {
             localAudioTrack?.isEnabled = false

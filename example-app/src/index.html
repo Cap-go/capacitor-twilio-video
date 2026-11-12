@@ -174,7 +174,11 @@
   <body>
     <main>
       <h1>Twilio Video Plugin</h1>
-      <p>Headless iOS test panel (no native video rendering), with backend token fetch flow.</p>
+      <p>
+        Native call UI test panel. You must run your own Twilio Video access-token server and paste its
+        base URL below. The example calls
+        <code>{backendUrl}/accessToken/ios</code> or <code>.../android</code> with the identity you enter.
+      </p>
       <div id="status">Ready.</div>
 
       <div class="grid">
@@ -185,7 +189,8 @@
             type="text"
             id="backendUrl"
             name="backendUrl"
-            value="https://capgo.wcaleniewolny.me"
+            value="https://your-token-server.example.com/"
+            placeholder="https://your-token-server.example.com/"
           />
           <label for="identity">Identity</label>
           <input type="text" id="identity" name="identity" value="alice" />
