@@ -93,6 +93,7 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
             String roomName = room != null ? room.getName() : implementation.getCurrentRoomName();
             implementation.updateRoom(null);
             implementation.setState("disconnected");
+            implementation.endRoomMediaCapture();
             teardownCallUI();
             JSObject payload = new JSObject();
             if (roomName != null) {
@@ -134,6 +135,7 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
             String roomName = room != null ? room.getName() : implementation.getCurrentRoomName();
             implementation.updateRoom(null);
             implementation.setState("disconnected");
+            implementation.endRoomMediaCapture();
             teardownCallUI();
             JSObject payload = new JSObject();
             if (roomName != null) {
@@ -614,6 +616,7 @@ public class CapacitorTwilioVideoPlugin extends Plugin {
         }
         implementation.updateRoom(null);
         implementation.setState("disconnected");
+        implementation.endRoomMediaCapture();
         teardownCallUI();
     }
 

@@ -44,6 +44,7 @@ extension CapacitorTwilioVideoPlugin {
         implementation.currentRoom?.disconnect()
         implementation.updateRoom(nil)
         implementation.setState("disconnected")
+        implementation.endRoomMediaCapture()
         teardownCallUI()
     }
 

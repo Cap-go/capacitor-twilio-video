@@ -87,6 +87,16 @@ public class CapacitorTwilioVideo {
         state = nextState;
     }
 
+    public void endRoomMediaCapture() {
+        if (videoCapturer != null) {
+            try {
+                videoCapturer.stopCapture();
+            } catch (InterruptedException exception) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
     public void ensureLocalTracks(Context context, boolean enableAudio, boolean enableVideo) {
         if (enableAudio && localAudioTrack == null) {
             localAudioTrack = LocalAudioTrack.create(context, true);

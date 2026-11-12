@@ -261,6 +261,7 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
         clearRemoteParticipantDelegates(in: room)
         implementation.updateRoom(nil)
         implementation.setState("disconnected")
+        implementation.endRoomMediaCapture()
         teardownCallUI()
         var payload: [String: Any] = ["roomName": roomName]
         if let error = error {
@@ -273,6 +274,7 @@ public class CapacitorTwilioVideoPlugin: CAPPlugin, CAPBridgedPlugin, RoomDelega
         clearRemoteParticipantDelegates(in: room)
         implementation.updateRoom(nil)
         implementation.setState("disconnected")
+        implementation.endRoomMediaCapture()
         teardownCallUI()
         notifyListeners("roomDisconnected", data: [
             "roomName": room.name,
