@@ -83,7 +83,7 @@ bunx cap sync ios
 
 ### 2. Twilio Video SDK floor
 
-This plugin links [twilio-video-ios](https://github.com/twilio/twilio-video-ios) **5.11.3** through Swift Package Manager (`from: "5.11.3"` in `Package.swift`) and CocoaPods (`TwilioVideo ~> 5.11`).
+This plugin links [twilio-video-ios](https://github.com/twilio/twilio-video-ios) **5.11.3** through Swift Package Manager (`from: "5.11.3"` in `Package.swift`) and CocoaPods (`TwilioVideo ~> 5.11`). With CocoaPods, run `pod update TwilioVideo` if your lockfile pins an older 5.11.x, since `~> 5.11` alone does not enforce 5.11.3.
 
 Minimum iOS deployment target: **15.0**.
 
@@ -246,7 +246,8 @@ Video access tokens use JWT format with a `grants` object. Example:
 
 ```json
 {
-  "iss": "your-account-sid",
+  "iss": "your-api-key-sid",
+  "sub": "your-account-sid",
   "exp": 1234567890,
   "grants": {
     "identity": "user-identity",
